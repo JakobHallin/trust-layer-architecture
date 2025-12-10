@@ -45,6 +45,16 @@ curl -k -A "Googlebot/2.1" https://localhost/
 curl http://localhost:3000/metrics
 ```
 
+### Frontend Documentation (Port 5173)
+```bash
+# Open in browser
+open http://localhost:5173
+
+# Or with curl
+curl http://localhost:5173
+# Returns: React app with trust architecture documentation
+```
+
 ## Architecture
 
 ```
@@ -82,6 +92,9 @@ docker/
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── Dockerfile
+├── frontend/
+│   ├── Dockerfile          # Multi-stage build for React app
+│   └── nginx.conf          # SPA routing config
 ├── certs/
 │   ├── generate-certs.sh   # Cert generator
 │   ├── ca.crt/key          # Root CA

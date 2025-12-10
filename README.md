@@ -1,12 +1,22 @@
 # Three-Lane Trust Architecture
 
-Ett Docker-baserat projekt som demonstrerar en trust-first arkitektur för trafikklassificering med mTLS, bot-verifiering och ML-baserad analys.
+Ett Docker-baserat projekt som demonstrerar en trust-first arkitektur för att stoppa
+storskaligt missbruk av headless browsers – utan att stå i vägen för legitima AI-agenter eller mänskliga användare.
+
+Projektet är ett svar på **Aligned Intelligence-utmaningen**:
+
+> “Create an AI-powered solution that stops large-scale misuse of headless browsers  
+> without getting in the way of real automation or human users.”
+
+---
+
+## Idea Startpoint (Original Concept)
 
 Detta dokument är själva idén bakom projektet.  
-Jag skrev det dagarna efter eventet för att samla mina tankar, formulera problemet och beskriva  
-den första versionen av trust-modellen.  
+Jag skrev det dagarna efter eventet för att samla mina tankar, formulera problemet och beskriva
+den första versionen av trust-modellen.
 
-All arkitektur, mTLS-design, lane-routing och trust-service i projektet växte fram ur detta dokument.
+All arkitektur – mTLS-design, lane-routing och trust-service – växte fram ur detta dokument.
 
 ➡️ **[Läs idédokumentet här](./idea-startpoint.pdf)**
 

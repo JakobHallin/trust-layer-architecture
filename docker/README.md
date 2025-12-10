@@ -132,10 +132,3 @@ docker/
     └── mtls/index.html     # Trusted lane UI
 ```
 
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `NODE_ENV` | production | Environment |
-| `PORT` | 3000 | Trust service port |
-| `LOG_LEVEL` | info | pino log level |

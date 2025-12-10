@@ -2,6 +2,14 @@
 
 Ett Docker-baserat projekt som demonstrerar en trust-first arkitektur för trafikklassificering med mTLS, bot-verifiering och ML-baserad analys.
 
+Detta dokument är själva idén bakom projektet.  
+Jag skrev det dagarna efter eventet för att samla mina tankar, formulera problemet och beskriva  
+den första versionen av trust-modellen.  
+
+All arkitektur, mTLS-design, lane-routing och trust-service i projektet växte fram ur detta dokument.
+
+➡️ **[Läs idédokumentet här](./idea-startpoint.md)**
+
 ## Projektstruktur
 
 All kod finns i `/docker`-mappen:

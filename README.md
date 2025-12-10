@@ -1,73 +1,67 @@
-# Welcome to your Lovable project
+# Three-Lane Trust Architecture
 
-## Project info
+Ett Docker-baserat projekt som demonstrerar en trust-first arkitektur för trafikklassificering med mTLS, bot-verifiering och ML-baserad analys.
 
-**URL**: https://lovable.dev/projects/a4e93a6f-bfad-4300-b8d0-cbd64d790dc6
+## Projektstruktur
 
-## How can I edit this code?
+All kod finns i `/docker`-mappen:
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a4e93a6f-bfad-4300-b8d0-cbd64d790dc6) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+docker/
+├── docker-compose.yml      # Orkestrering av alla services
+├── nginx/                  # Reverse proxy med mTLS
+├── trust-service/          # Node.js klassificeringstjänst
+├── frontend/               # React-app (Aligned Intelligence)
+├── certs/                  # TLS-certifikat
+└── apps/                   # Statiska HTML-sidor per lane
 ```
 
-**Edit a file directly in GitHub**
+## Snabbstart
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+cd docker
 
-**Use GitHub Codespaces**
+# Generera certifikat
+./certs/generate-certs.sh
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Starta alla services
+docker-compose up -d
 
-## What technologies are used for this project?
+# Öppna frontend
+open http://localhost:5173
+```
 
-This project is built with:
+## Dokumentation
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Se [docker/README.md](docker/README.md) för:
+- Detaljerad arkitekturbeskrivning
+- Lane-definitioner (Trusted, Public, Blocked)
+- Testinstruktioner med curl
+- Frontend-utveckling
+- Environment variables
 
-## How can I deploy this project?
+## Arkitektur
 
-Simply open [Lovable](https://lovable.dev/projects/a4e93a6f-bfad-4300-b8d0-cbd64d790dc6) and click on Share -> Publish.
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│    Nginx    │────▶│   Backend   │
+│  (Browser/  │     │   (mTLS +   │     │  Services   │
+│    Bot)     │     │   Routing)  │     │             │
+└─────────────┘     └─────────────┘     └─────────────┘
+                           │
+                    ┌──────┴──────┐
+                    │   Trust     │
+                    │   Service   │
+                    └─────────────┘
+```
 
-## Can I connect a custom domain to my Lovable project?
+### Tre lanes:
+- **Trusted (cyan)**: mTLS-verifierade klienter
+- **Public (amber)**: Människor + verifierade bots (Googlebot)
+- **Blocked**: Ej verifierad automation
 
-Yes, you can!
+## Teknologier
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Frontend**: React, Vite, TypeScript, Tailwind CSS
+- **Backend**: Node.js, Express
+- **Infrastructure**: Docker, Nginx, mTLS

@@ -8,7 +8,7 @@ den första versionen av trust-modellen.
 
 All arkitektur, mTLS-design, lane-routing och trust-service i projektet växte fram ur detta dokument.
 
-➡️ **[Läs idédokumentet här](./idea-startpoint.md)**
+➡️ **[Läs idédokumentet här](./idea-startpoint.pdf)**
 
 ## Projektstruktur
 

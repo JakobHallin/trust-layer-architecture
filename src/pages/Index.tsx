@@ -4,6 +4,7 @@ import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 import TrustModelSection from "@/components/TrustModelSection";
 import AuthMethodsSection from "@/components/AuthMethodsSection";
 import GooglebotVerification from "@/components/GooglebotVerification";
+import ImplementationSection from "@/components/ImplementationSection";
 import MLSection from "@/components/MLSection";
 import CloudflareComparison from "@/components/CloudflareComparison";
 import SummarySection from "@/components/SummarySection";
@@ -26,6 +27,7 @@ const Index = () => {
         <TrustModelSection />
         <AuthMethodsSection />
         <GooglebotVerification />
+        <ImplementationSection />
         <MLSection />
         <CloudflareComparison />
         <SummarySection />

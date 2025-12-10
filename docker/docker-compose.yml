@@ -56,6 +56,17 @@ services:
     networks:
       - trust-network
 
+  # Frontend documentation app
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/frontend/Dockerfile
+    container_name: trust-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - trust-network
+
 networks:
   trust-network:
     driver: bridge

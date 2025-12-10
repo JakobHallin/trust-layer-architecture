@@ -30,7 +30,19 @@ docker-compose up -d
 # Öppna frontend
 open http://localhost:5173
 ```
-
+### Configure Firefox to Trust the Local HTTPS Certificate
+1. Gå till: about:preferences#privacy
+2. Scrolla till "Certificates"
+3. Klicka View Certificates
+4. Gå till fliken Authorities
+5. Klicka Import
+6. Välj din ca.crt
+7. Markera: ✔ Trust this CA to identify websites
+### Configurer so u dont need to add --cacert when curl
+```bash
+sudo cp ca.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
 ## Dokumentation
 
 Se [docker/README.md](docker/README.md) för:

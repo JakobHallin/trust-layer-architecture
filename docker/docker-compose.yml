@@ -59,8 +59,8 @@ services:
   # Frontend documentation app
   frontend:
     build:
-      context: ..
-      dockerfile: docker/frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: trust-frontend
     ports:
       - "5173:80"

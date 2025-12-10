@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trusted Lane</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .container {
+      text-align: center;
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      max-width: 500px;
+    }
+    .lane-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .info {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(34, 211, 238, 0.1);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+    .info p {
+      margin-bottom: 0.5rem;
+    }
+    code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      font-family: 'Fira Code', monospace;
+    }
+    .verified {
+      color: #22d3ee;
+    }
+    .shield {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lane-badge">🔐 Trusted Lane</div>
+    <div class="shield">🛡️</div>
+    <h1>mTLS Verified</h1>
+    <p>Your client certificate has been <strong class="verified">verified</strong>. You have access to the trusted lane with elevated privileges.</p>
+    <div class="info">
+      <p><strong>Trust Level:</strong> <code>mTLS verified</code></p>
+      <p><strong>Certificate:</strong> Valid & Trusted</p>
+      <p><strong>Rate Limit:</strong> 10,000 req/min</p>
+      <p><strong>Access:</strong> Full API access</p>
+    </div>
+  </div>
+</body>
+</html>

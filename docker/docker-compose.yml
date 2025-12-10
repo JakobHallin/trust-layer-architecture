@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Nginx reverse proxy - mTLS termination point
+  nginx:
+    image: nginx:alpine
+    container_name: trust-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - trust-service
+      - public-app
+      - mtls-app
+    networks:
+      - trust-network
+
+  # Trust classification service
+  trust-service:
+    build:
+      context: ./trust-service
+      dockerfile: Dockerfile
+    container_name: trust-service
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - LOG_LEVEL=info
+    ports:
+      - "3000:3000"
+    networks:
+      - trust-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Public lane application
+  public-app:
+    image: nginx:alpine
+    container_name: public-app
+    volumes:
+      - ./apps/public/index.html:/usr/share/nginx/html/index.html:ro
+    networks:
+      - trust-network
+
+  # mTLS trusted lane application
+  mtls-app:
+    image: nginx:alpine
+    container_name: mtls-app
+    volumes:
+      - ./apps/mtls/index.html:/usr/share/nginx/html/index.html:ro
+    networks:
+      - trust-network
+
+networks:
+  trust-network:
+    driver: bridge

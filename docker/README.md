@@ -12,7 +12,7 @@ chmod +x generate-certs.sh
 cd ..
 
 # 2. Start services
-docker-compose up --build
+docker compose up --build
 
 # 3. Test endpoints
 ```

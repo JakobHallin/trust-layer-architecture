@@ -132,32 +132,6 @@ docker/
     └── mtls/index.html     # Trusted lane UI
 ```
 
-## Frontend Development
-
-Frontend-appen "Aligned Intelligence" är helt fristående i `frontend/`-mappen.
-
-### Lokal utveckling (utan Docker)
-```bash
-cd frontend
-npm install
-npm run dev
-# Öppna http://localhost:8080
-```
-
-### Bygga för produktion
-```bash
-cd frontend
-npm run build
-# Output i frontend/dist/
-```
-
-### Bygga med Docker
-```bash
-docker-compose build frontend
-docker-compose up frontend
-# Öppna http://localhost:5173
-```
-
 ## Environment Variables
 
 | Variable | Default | Description |

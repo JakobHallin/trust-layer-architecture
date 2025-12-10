@@ -92,9 +92,36 @@ docker/
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── Dockerfile
-├── frontend/
-│   ├── Dockerfile          # Multi-stage build for React app
-│   └── nginx.conf          # SPA routing config
+├── frontend/               # Fristående React-app (Aligned Intelligence)
+│   ├── Dockerfile          # Multi-stage build
+│   ├── nginx.conf          # SPA routing config
+│   ├── package.json        # Dependencies
+│   ├── tsconfig.json       # TypeScript config
+│   ├── vite.config.ts      # Vite bundler config
+│   ├── tailwind.config.ts  # Tailwind CSS config
+│   ├── postcss.config.js   # PostCSS config
+│   ├── index.html          # HTML entry point
+│   └── src/
+│       ├── main.tsx        # React entry point
+│       ├── App.tsx         # Main app component
+│       ├── index.css       # Global styles + design tokens
+│       ├── pages/          # Page components
+│       │   ├── Index.tsx
+│       │   └── NotFound.tsx
+│       ├── components/     # UI components
+│       │   ├── HeroSection.tsx
+│       │   ├── ArchitectureDiagram.tsx
+│       │   ├── TrustModelSection.tsx
+│       │   ├── AuthMethodsSection.tsx
+│       │   ├── GooglebotVerification.tsx
+│       │   ├── ImplementationSection.tsx
+│       │   ├── MLSection.tsx
+│       │   ├── CloudflareComparison.tsx
+│       │   ├── SummarySection.tsx
+│       │   ├── Footer.tsx
+│       │   └── ui/         # Shadcn UI components
+│       ├── hooks/          # React hooks
+│       └── lib/            # Utilities
 ├── certs/
 │   ├── generate-certs.sh   # Cert generator
 │   ├── ca.crt/key          # Root CA
@@ -103,6 +130,32 @@ docker/
 └── apps/
     ├── public/index.html   # Public lane UI
     └── mtls/index.html     # Trusted lane UI
+```
+
+## Frontend Development
+
+Frontend-appen "Aligned Intelligence" är helt fristående i `frontend/`-mappen.
+
+### Lokal utveckling (utan Docker)
+```bash
+cd frontend
+npm install
+npm run dev
+# Öppna http://localhost:8080
+```
+
+### Bygga för produktion
+```bash
+cd frontend
+npm run build
+# Output i frontend/dist/
+```
+
+### Bygga med Docker
+```bash
+docker-compose build frontend
+docker-compose up frontend
+# Öppna http://localhost:5173
 ```
 
 ## Environment Variables

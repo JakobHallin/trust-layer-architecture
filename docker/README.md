@@ -102,6 +102,12 @@ curl http://localhost:5173
 | Public | Amber | Anonymous + verified bots | 100/min |
 | Blocked | Red | Fake bots, suspicious | 0 |
 
+## Inspect certificates
+```
+openssl x509 -in certs/*.crt -text -noout
+```
+
+
 ## Files
 
 ```

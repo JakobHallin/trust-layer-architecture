@@ -10,7 +10,7 @@ It was inspired by the Aligned Intelligence challenge:
 
 > “Create an AI-powered solution that stops large-scale misuse of headless browsers without getting in the way of real automation or human users.”
 
-The core idea: **identity and trust must come before behavior analysis.**
+The core idea: **this prototype explores the idea that identity may come before behavior analysis.**
 
 ---
 
@@ -24,10 +24,9 @@ Modern web traffic includes:
 - headless browsers  
 - automation operating via DOM, scripts, or screenshots  
 
-Key insight:
+Working hypothesis:
 
-> The challenge is not “human or bot”.  
-> The challenge is distinguishing **legitimate automation** from **harmful automation**.
+One way to frame the challenge is not “human or bot,” but distinguishing legitimate automation from harmful automation.
 
 ### Why behavior-first detection fails  
 Early behavior often looks identical between:
@@ -43,6 +42,7 @@ Therefore the system relies on:
 - **cryptographic authentication**
 - **policy and routing**
 - **ML as a secondary layer**
+*Note: ML is not implemented in this prototype — it is only referenced as a possible future extension.*
 
 ---
 
@@ -55,7 +55,7 @@ For machine identity and provenance, mTLS provides:
 - difficult-to-forge credentials  
 - ability to attach policy at the transport layer  
 
-This makes mTLS the baseline for all trusted automation.
+This makes mTLS a useful baseline to explore for trusted automation in this prototype.
 
 ---
 
@@ -77,7 +77,7 @@ Used for:
 - backend automation  
 - any client that can cryptographically prove identity  
 
-**Good automation belongs here.**
+**In this prototype, verified automation is routed here.**
 
 ---
 
@@ -98,12 +98,12 @@ Who ends up here?
 
 Policy inside this lane:
 
-- **humans → allowed**
-- **unknown automation → not allowed unless strongly verified**
+- **intended human traffic → allowed**
+- **unknown automation → restricted unless strongly verified**
 
 Additional validation in Public:
 
-- Googlebot IP + reverse DNS verification  
+- basic Googlebot-style checks (IP + reverse DNS) for demonstration
 - header and TLS fingerprint checks  
 - rate and anomaly detection  
 - optional ML/heuristics  
@@ -159,7 +159,7 @@ Blocked → Implicit (403 Forbidden)
    - `X-Trust-Risk`  
    - `X-Trust-Identity`  
 5. Nginx routes the request  
-6. Backend services receive enriched trust metadata  
+6. Backend services receive basic trust metadata for demonstration 
 
 Traffic that fails verification never reaches backend.
 
@@ -222,23 +222,38 @@ It explains my original thinking:
 
 * how ML fits in as a secondary layer
 
-* how three-lane trust maps to real bot mitigation systems
+* how the three-lane idea conceptually relates to patterns used in some bot-mitigation systems
 
 
 # Summary
 This prototype demonstrates a modern approach to controlling automation:
 
 ```
+In this prototype:
 Unknown traffic belongs in Public Lane.
 Verified automation belongs in Trusted Lane.
 Suspicious automation is blocked early.
 ```
 
-By pushing trust decisions to the edge — before backend services — this architecture mirrors how large platforms design bot mitigation and Zero Trust systems for an AI-driven web.
+By pushing trust decisions to the edge — before backend services — this prototype is inspired by patterns used in modern bot-mitigation and Zero Trust systems, but is intentionally simplified for experimentation and learning.
 
 
 
+# Limitations
 
+* ML classification is not implemented (concept only).
+
+* PKI is simplified and not production-hardened.
+
+* No certificate rotation, revocation, or lifecycle management.
+
+* Verification logic is intentionally minimal.
+
+* Public lane “human vs automation” distinctions are conceptual only.
+
+* Googlebot verification is a simplified demonstration, not production-grade.
+
+* Routing rules are illustrative, not comprehensive.
 
 
 

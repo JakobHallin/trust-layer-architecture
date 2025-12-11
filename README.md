@@ -24,25 +24,26 @@ Modern web traffic includes:
 - headless browsers  
 - automation operating via DOM, scripts, or screenshots  
 
-Working hypothesis:
+This challenge can also be framed not as “human vs bot”, but as distinguishing legitimate automation from harmful automation.
+Instead of relying on behavior analysis, this prototype explores whether identity can create that separation earlier in the request flow.
 
-One way to frame the challenge is not “human or bot,” but distinguishing legitimate automation from harmful automation.
-
-### Why behavior-first detection fails  
+### Why behavior-first detection is difficult
 Early behavior often looks identical between:
 
 - legitimate and malicious scrapers  
 - helpful and harmful AI agents  
 - headless browsers and real browsers  
-- bots mimicking human behavior  
+- bots intentionally mimicking human behavior  
 
-Therefore the system relies on:
+Because early signals are ambiguous, purely behavior-based detection must react after automation has already begun interacting with the system.
 
+This motivates exploring:
 - **identity**
 - **cryptographic authentication**
 - **policy and routing**
 - **ML as a secondary layer**
-*Note: ML is not implemented in this prototype. It is only referenced as a possible future extension.*
+
+as a first layer, with ML or behavioral heuristics potentially added later as secondary signals (not implemented in this prototype).
 
 ---
 

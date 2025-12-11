@@ -190,9 +190,7 @@ docker compose up --build
 ```
 ## Running the System
 
-Runtime and testing instructions are located in:
-
-**[/docker/README.md](./docker/README.md)**
+Runtime and testing instructions are located in: **[/docker/README.md](./docker/README.md)**
 
 
 
@@ -212,9 +210,7 @@ Runtime and testing instructions are located in:
 
 ## Original Concept
 
-The architecture originates from the idea and reasoning summarized in:
-
- **[The starting idea](./idea-startpoint.pdf)**
+The architecture originates from the idea and reasoning summarized in: **[The starting idea](./idea-startpoint.pdf)**
 
 It explains my original thinking:
 

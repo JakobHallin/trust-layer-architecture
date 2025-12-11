@@ -47,6 +47,27 @@ as a first layer, with ML or behavioral heuristics potentially added later as se
 
 ---
 
+## How This Approach Differs From Typical Solutions
+
+Most approaches to this challenge focus on behavioural or AI-driven detection, such as swarm clustering, click-pattern analysis, timing heuristics, or ML-based anomaly classification.
+
+This prototype intentionally explores a different part of the problem:
+
+**Identity-first trust separation, rather than behaviour-first detection.**
+
+The system reduces harmful automation before it begins interacting with the application by:
+
+* enforcing strong machine identity (via mTLS)
+
+* routing verified automation into a Trusted Lane
+
+* isolating unknown traffic in the Public Lane
+
+* blocking unverifiable or suspicious automation early
+
+This prototype does not attempt to implement ML, swarm detection, or long-term behavioural tracking.
+Instead, it provides a foundational trust layer that behavioural/AI systems could sit on top of.
+
 ## Why mTLS  
 For machine identity and provenance, mTLS provides:
 

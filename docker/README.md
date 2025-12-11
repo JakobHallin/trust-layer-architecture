@@ -14,21 +14,32 @@ cd ..
 # 2. Start services
 docker compose up --build
 
-# 3. Test endpoints
+# 3. Verify that everything is running
+docker ps
 ```
+## Setup optinal or u can use --cacert
+Certificate Setup (So You Don’t Need --cacert with curl)
+
+To trust the local CA certificate system-wide, install it into your OS certificate store:
+
+sudo cp ca.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+
+
+After this, curl and other system tools will trust the certificate automatically—no need to pass --cacert.
+
 
 ## Testing
 
 ### Anonymous Request (Public Lane)
 ```bash
-curl -k https://localhost/
+curl https://localhost/
 # Returns: Public lane HTML
 ```
 
 ### mTLS Request (Trusted Lane)
 ```bash
-curl -k --cacert certs/ca.crt \
-  --cert certs/clients/internal-service.crt \
+curl --cert certs/clients/internal-service.crt \
   --key certs/clients/internal-service.key \
   https://localhost/
 # Returns: Trusted lane HTML
@@ -36,7 +47,7 @@ curl -k --cacert certs/ca.crt \
 
 ### Fake Googlebot (Blocked)
 ```bash
-curl -k -A "Googlebot/2.1" https://localhost/
+curl -A "Googlebot/2.1" https://localhost/
 # Returns: 403 Forbidden (IP doesn't match Google ranges)
 ```
 

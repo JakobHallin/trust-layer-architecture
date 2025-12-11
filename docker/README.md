@@ -104,7 +104,11 @@ curl http://localhost:5173
 
 ## Inspect certificates
 ```
-openssl x509 -in certs/*.crt -text -noout
+openssl x509 -in certs/clients/internal-service.crt -text -noout
+
+openssl x509 -in certs/clients/partner-api.crt -text -noout
+
+openssl x509 -in certs/clients/vendor-bot.crt -text -noout 
 ```
 
 

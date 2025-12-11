@@ -188,6 +188,11 @@ chmod +x generate-certs.sh
 # Starta alla services
 docker-compose up -d
 ```
+## Running the System
+
+All runtime and testing instructions are located in:
+
+➡️ **[/docker/README.md](./docker/README.md)**
 
 
 
@@ -209,7 +214,7 @@ docker-compose up -d
 
 The architecture originates from the idea and reasoning summarized in:
 
-* **[The starting idea](./idea-startpoint.pdf)**
+ **[The starting idea](./idea-startpoint.pdf)**
 
 It explains my original thinking:
 
@@ -235,21 +240,6 @@ Suspicious automation is blocked early.
 
 By pushing trust decisions to the edge — before backend services — this architecture mirrors how large platforms design bot mitigation and Zero Trust systems for an AI-driven web.
 
-### Configure Firefox to Trust the Local HTTPS Certificate
-1. Go to: about:preferences#privacy
-2. Scroll to "Certificates"
-3. Click View Certificates
-4. Go to the tab Authorities
-5. Click Import
-6. Pick the ca.crt
-7. Mark: ✔ Trust this CA to identify websites
-### Configur so u dont need to add --cacert when curl
-```bash
-sudo cp ca.crt /usr/local/share/ca-certificates/
-sudo update-ca-certificates
-```
-
-## More information is on /docker/readme.md
 
 
 

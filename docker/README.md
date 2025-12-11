@@ -103,7 +103,7 @@ curl http://localhost:5173
 | Blocked | Red | Fake bots, suspicious | 0 |
 
 ## Inspect certificates
-```
+```bash
 openssl x509 -in certs/clients/internal-service.crt -text -noout
 
 openssl x509 -in certs/clients/partner-api.crt -text -noout

@@ -1,6 +1,7 @@
 # Trust Architecture - Docker Setup
 
-Three-lane trust architecture with mTLS, Googlebot verification, and policy-based routing.
+Three-lane trust architecture with mTLS, basic Googlebot-style verification, and policy-based routing.
+
 
 ## Quick Start
 

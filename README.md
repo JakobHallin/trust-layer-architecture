@@ -177,7 +177,7 @@ docker/
 └── apps/                   # Public + Trusted lane HTML pages
 ```
 
-## Quick Start
+## Quick Start (Full setup in /docker)
 ```bash
 cd docker
 #Make it executabele
@@ -185,14 +185,14 @@ chmod +x generate-certs.sh
 # Generate certs
 ./certs/generate-certs.sh
 
-# Starta alla services
-docker-compose up -d
+# Build and start containers
+docker compose up --build
 ```
 ## Running the System
 
-All runtime and testing instructions are located in:
+Runtime and testing instructions are located in:
 
-➡️ **[/docker/README.md](./docker/README.md)**
+**[/docker/README.md](./docker/README.md)**
 
 
 

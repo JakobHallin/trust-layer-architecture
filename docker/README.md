@@ -20,10 +20,10 @@ docker ps
 ## Certificate Setup (So You Don’t Need --cacert with curl)
 
 To trust the local CA certificate system-wide, install it into your OS certificate store:
-
+```bash
 sudo cp ca.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
-
+```
 
 After this, curl and other system tools will trust the certificate automatically—no need to pass --cacert.
 
@@ -35,6 +35,8 @@ After this, curl and other system tools will trust the certificate automatically
 5. Click Import
 6. Pick the ca.crt
 7. Mark: ✔ Trust this CA to identify websites
+
+
 
 
 

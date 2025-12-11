@@ -47,6 +47,50 @@ as a first layer, with ML or behavioral heuristics potentially added later as se
 
 ---
 
+
+## Why Identity-First Separation Matters
+
+
+This prototype is **not** intended to block all malicious automation on its own.
+Instead, the goal is to:
+
+> **separate verified, trusted automation early (via mTLS) so that all unverified or unknown traffic remains in the Public Lane, where behavioral or ML-based detection can safely identify and later ban or throttle suspicious automation.**
+
+By enforcing identity at the edge:
+
+- trusted automation becomes predictable
+
+- unknown automation is isolated
+
+- bot-detection systems receive a cleaner signal
+
+- false positives decrease
+
+- enforcement becomes easier and more accurate
+
+- ML/risk engines can focus exclusively on Public Lane traffic, without noise or interference from trusted automation
+
+This makes identity a first filter, not a complete solution.  
+A foundation that downstream detection layers can build on top of.
+
+## How the Lanes Enable Reliable Bot Decisions
+
+A key consequence of this design is that any automation operating in the Public Lane is already unverified by definition.
+This makes later detection significantly more reliable:
+
+If a client in the Public Lane shows automation-like behavior, it can be confidently classified as harmful automation — because legitimate automation is expected to authenticate via mTLS and enter the Trusted Lane.
+
+This creates a clean trust boundary:
+
+Trusted Lane → verified, intentional automation
+
+Public Lane → humans + unverified automation
+
+Bots detected in Public → almost certainly malicious
+
+This layered separation reduces false positives and allows behavioral, heuristic, or ML-based systems to make safer decisions about unknown traffic.
+
+
 ## How This Approach Differs From Typical Solutions
 
 Most approaches to this challenge focus on behavioural or AI-driven detection, such as swarm clustering, click-pattern analysis, timing heuristics, or ML-based anomaly classification.

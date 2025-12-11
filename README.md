@@ -4,7 +4,7 @@
 ---
 
 ## Overview  
-This project is a Docker-based prototype demonstrating a **trust-first architecture** designed to stop large-scale misuse of headless browsers — without blocking legitimate automation or human users.
+This project is a Docker-based prototype demonstrating a **trust-first architecture** designed to stop large-scale misuse of headless browsers, while still allowing legitimate automation and human users.
 
 It was inspired by the Aligned Intelligence challenge:
 
@@ -42,7 +42,7 @@ Therefore the system relies on:
 - **cryptographic authentication**
 - **policy and routing**
 - **ML as a secondary layer**
-*Note: ML is not implemented in this prototype — it is only referenced as a possible future extension.*
+*Note: ML is not implemented in this prototype. It is only referenced as a possible future extension.*
 
 ---
 
@@ -66,7 +66,7 @@ This prototype implements **two explicit lanes**, with the third lane handled im
 
 ---
 
-## 1. Trusted Lane — Verified Automation (explicit)
+## 1. Trusted Lane: Verified Automation (explicit)
 
 A client routed here must present a **valid mTLS client certificate** issued by the trusted CA.
 
@@ -81,7 +81,7 @@ Used for:
 
 ---
 
-## 2. Public Lane — Unknown Traffic (explicit)
+## 2. Public Lane: Unknown Traffic (explicit)
 
 If a client **does not present a certificate**, it is routed to the Public Lane.
 
@@ -110,7 +110,7 @@ Additional validation in Public:
 
 ---
 
-## 3. Blocked Lane — Failed Verification (implicit)
+## 3. Blocked Lane: Failed Verification (implicit)
 
 No separate backend is used.  
 If the Trust Service classifies a request as `blocked`, or verification fails:
@@ -235,7 +235,7 @@ Verified automation belongs in Trusted Lane.
 Suspicious automation is blocked early.
 ```
 
-By pushing trust decisions to the edge — before backend services — this prototype is inspired by patterns used in modern bot-mitigation and Zero Trust systems, but is intentionally simplified for experimentation and learning.
+By pushing trust decisions to the edge, before backend services, this prototype is inspired by patterns used in modern bot-mitigation and Zero Trust systems, but it is intentionally simplified for experimentation and learning.
 
 
 

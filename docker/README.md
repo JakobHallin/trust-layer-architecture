@@ -17,8 +17,7 @@ docker compose up --build
 # 3. Verify that everything is running
 docker ps
 ```
-## Setup optinal or u can use --cacert
-Certificate Setup (So You Don’t Need --cacert with curl)
+## Certificate Setup (So You Don’t Need --cacert with curl)
 
 To trust the local CA certificate system-wide, install it into your OS certificate store:
 

@@ -27,6 +27,16 @@ sudo update-ca-certificates
 
 After this, curl and other system tools will trust the certificate automatically—no need to pass --cacert.
 
+### Configure Firefox to Trust the Local HTTPS Certificate
+1. Go to: about:preferences#privacy
+2. Scroll to "Certificates"
+3. Click View Certificates
+4. Go to the tab Authorities
+5. Click Import
+6. Pick the ca.crt
+7. Mark: ✔ Trust this CA to identify websites
+
+
 
 ## Testing
 

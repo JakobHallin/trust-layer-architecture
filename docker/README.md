@@ -100,8 +100,8 @@ curl http://localhost:5173
 | Lane | Color | Access | Rate Limit | Implementation |
 |------|-------|--------|------------|------------|
 | Trusted | Cyan | mTLS verified clients | 10,000/min | Routed to mtls-app |
-| Public | Amber | Anonymous + verified bots | 100/min |Routed to public-app |
-| Blocked | Red | Fake bots, suspicious | 0 | Returned as 403 (no backend) |
+| Public | Amber | Unkown trafic | 100/min |Routed to public-app |
+| Blocked | Red | blocked trafic | 0 | Returned as 403 (no backend) |
 
 ## Inspect certificates
 ```bash

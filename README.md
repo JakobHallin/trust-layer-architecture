@@ -10,6 +10,13 @@ It does not attempt to detect or block malicious bots on its own.
 It provides a foundational trust layer that other detection and enforcement systems can build on.
 
 ---
+## Frontend visualization
+
+This repository includes a small UI that visualizes an earlier, broader
+baseline trust model explored during design.
+
+The current README and Nginx configuration describe the narrower, enforceable
+scope implemented in this prototype.
 
 ## Problem statment
 

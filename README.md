@@ -1,20 +1,17 @@
 # Three-Lane Trust Architecture  
-*A PKI-driven Zero Trust prototype for separating humans, verified automation, and suspicious bots.*
+*A prototype for early separation of trusted automation from unknown traffic*
 
 ---
 
 ## Overview  
-This project is a Docker-based prototype demonstrating a **trust-first architecture** designed to stop large-scale misuse of headless browsers, while still allowing legitimate automation and human users.
+This project is a Docker-based prototype that explores whether separating known, legitimate automation at the earliest possible point using strong machine identity can reduce noise and false positives in downstream bot-detection systems.
 
-It was inspired by the Aligned Intelligence challenge:
-
-> “Create an AI-powered solution that stops large-scale misuse of headless browsers without getting in the way of real automation or human users.”
-
-The core idea: **this prototype explores the idea that identity may come before behavior analysis.**
+It does not attempt to detect or block malicious bots on its own.
+It provides a foundational trust layer that other detection and enforcement systems can build on.
 
 ---
 
-## Concept & Motivation  
+## Problem statment
 
 Modern web traffic includes:
 
@@ -24,115 +21,61 @@ Modern web traffic includes:
 - headless browsers  
 - automation operating via DOM, scripts, or screenshots  
 
-This challenge can also be framed not as “human vs bot”, but as distinguishing legitimate automation from harmful automation.
-Instead of relying on behavior analysis, this prototype explores whether identity can create that separation earlier in the request flow.
+Most bot-mitigation systems attempt to distinguish these actors **after** they begin interacting with the application, using behavioral or ML-based analysis. Early behavior, however, is often ambiguous and noisy.
 
-### Why behavior-first detection is difficult
-Early behavior often looks identical between:
+This prototype explores a different question:
+>What if known, intentional automation could be removed from the detection problem entirely before any behavior analysis occurs?
 
-- legitimate and malicious scrapers  
-- helpful and harmful AI agents  
-- headless browsers and real browsers  
-- bots intentionally mimicking human behavior  
+## Core Idea
 
-Because early signals are ambiguous, purely behavior-based detection must react after automation has already begun interacting with the system.
+The system applies identity-first separation for automation:
 
-This motivates exploring:
-- **identity**
-- **cryptographic authentication**
-- **policy and routing**
-- **ML as a secondary layer**
+- Verified automation authenticates using strong machine identity (mTLS) and is routed into a Trusted Lane
 
-as a first layer, with ML or behavioral heuristics potentially added later as secondary signals (not implemented in this prototype).
+- All other traffic defaults to a Public Lane
 
----
+- Failed or suspicious verification results in early rejection
+
+Behavioral or ML-based bot detection is assumed to operate only on Public Lane traffic, with reduced noise and fewer false positives.
+
+Identity is the first filter, not the final decision.
 
 
-## Why Identity-First Separation Matters
+
+## What “Verified Automation” Means
+
+In this prototype, verified automation refers to automation that is:
+
+- intentionally operated
+
+- explicitly enrolled
+
+- cryptographically identifiable by the service owner
+
+Verified automation may be operated by:
+
+- Internal automation
+Services, jobs, or agents owned and operated by the organization.
+
+- Partner automation
+Automation operated by trusted third parties with an explicit enrollment relationship.
+
+- Vendor automation
+Automation operated by external vendors providing integrated services.
+
+All verified automation:
+
+- authenticates via mTLS
+
+- is routed into the Trusted Lane
+
+- may carry policy metadata, but does not require separate trust lanes
+
+This system does not attempt to authenticate arbitrary third-party bots on the open internet.
 
 
-This prototype is **not** intended to block all malicious automation on its own.
-Instead, the goal is to:
-
-> **separate verified, trusted automation early (via mTLS) so that all unverified or unknown traffic remains in the Public Lane, where behavioral or ML-based detection can safely identify and later ban or throttle suspicious automation.**
-
-By enforcing identity at the edge:
-
-- trusted automation becomes predictable
-
-- unknown automation is isolated
-
-- bot-detection systems receive a cleaner signal
-
-- false positives decrease
-
-- enforcement becomes easier and more accurate
-
-- ML/risk engines can focus exclusively on Public Lane traffic, without noise or interference from trusted automation
-
-This makes identity a first filter, not a complete solution.  
-A foundation that downstream detection layers can build on top of.
-
-## How the Lanes Enable Reliable Bot Decisions
-
-A key consequence of this design is that any automation operating in the Public Lane is already unverified by definition.
-This makes later detection significantly more reliable:
-
-If a client in the Public Lane shows automation-like behavior, it can be confidently classified as harmful automation — because legitimate automation is expected to authenticate via mTLS and enter the Trusted Lane.
-
-This creates a clean trust boundary:
-
-Trusted Lane → verified, intentional automation
-
-Public Lane → humans + unverified automation
-
-Bots detected in Public → almost certainly malicious
-
-This layered separation reduces false positives and allows behavioral, heuristic, or ML-based systems to make safer decisions about unknown traffic.
-
-
-## How This Approach Differs From Typical Solutions
-
-Most approaches to this challenge focus on behavioural or AI-driven detection, such as swarm clustering, click-pattern analysis, timing heuristics, or ML-based anomaly classification.
-
-This prototype intentionally explores a different part of the problem:
-
-**Identity-first trust separation, rather than behaviour-first detection.**
-
-The system reduces harmful automation before it begins interacting with the application by:
-
-* enforcing strong machine identity (via mTLS)
-
-* routing verified automation into a Trusted Lane
-
-* isolating unknown traffic in the Public Lane
-
-* blocking unverifiable or suspicious automation early
-
-This prototype does not attempt to implement ML, swarm detection, or long-term behavioural tracking.
-Instead, it provides a foundational trust layer that behavioural/AI systems could sit on top of.
-
-## Why mTLS  
-For machine identity and provenance, mTLS provides:
-
-- strong cryptographic identity  
-- two-way verification  
-- private or vendor-controlled CA  
-- difficult-to-forge credentials  
-- ability to attach policy at the transport layer  
-
-This makes mTLS a useful baseline to explore for trusted automation in this prototype.
-
----
-
-# Lane Design in This Prototype
-
-The conceptual trust model includes **three lanes** (Trusted, Public, Blocked).  
-This prototype implements **two explicit lanes**, with the third lane handled implicitly.
-
----
-
-## 1. Trusted Lane: Verified Automation (explicit)
+## Lane model
+### 1. Trusted Lane: Verified Automation (explicit)
 
 A client routed here must present a **valid mTLS client certificate** issued by the trusted CA.
 
@@ -151,57 +94,67 @@ Used for:
 
 If a client **does not present a certificate**, it is routed to the Public Lane.
 
-Public Lane represents:
+This includes:
 
-> **unknown identity** (default baseline)
+- human users
+- browsers
+- unkown or unenrolled automation
 
-Who ends up here?
+ This is where: 
+ - rate limit:
+ - behavioral heuristics
+ - ML-based bot detection
 
-- humans  
-- browsers  
-- tools without certificates  
-- unknown automation  
-
-Policy inside this lane:
-
-- **intended human traffic → allowed**
-- **unknown automation → restricted unless strongly verified**
-
-Additional validation in Public:
-
-- basic Googlebot-style checks (IP + reverse DNS) for demonstration
-- header and TLS fingerprint checks  
-- rate and anomaly detection  
-- optional ML/heuristics  
-
----
+would be applied (conceptual only in this prototype).
 
 ## 3. Blocked Lane: Failed Verification (implicit)
 
-No separate backend is used.  
-If the Trust Service classifies a request as `blocked`, or verification fails:
+Requests that fail verification or are explicitly classified as malicious are rejected early (HTTP 403).
 
-HTTP 403 Forbidden
+This is a decision, not a separate backend destination.
 
 
-Examples:
+## Why early seperations helps
+By removing verified automation before behavioral analysis:
 
-- fake Googlebot  
-- bots using human UAs  
-- unverifiable or suspicious automation  
+- detection systems receive cleaner signals
 
-Blocked Lane is a **decision**, not a destination.
+- false positives decrease
 
----
+- enforcement decisions become safer
 
-## Lane Summary
+- trusted automation never competes with unknown traffic
 
-Trusted Lane → mTLS-verified automation
+If automation in the Public Lane exhibits bot-like behavior, it can be treated with significantly higher confidence as potentially harmful because verified automation is expected to authenticate.
 
-Public Lane → Unknown identity (default for no-cert clients)
 
-Blocked → Implicit (403 Forbidden)
+## What This Prototype Does Not Do
 
+
+- t does not identify humans
+
+- It does not detect malicious bots
+
+- It does not implement ML or swarm detection
+
+- It does not provide production-grade PKI
+
+These concerns are intentionally out of scope. (might me looked at later)
+
+
+## Intended Scope
+
+This approach is most effective in environments where:
+
+- some automation can be explicitly enrolled
+
+- machine identity is feasible
+
+- downstream detection systems already exist
+
+It is designed as a foundational trust layer, not a complete bot-mitigation solution.
+
+## High-Level Architecture
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Client    │────▶│    Nginx    │────▶│   Backend   │
@@ -215,111 +168,33 @@ Blocked → Implicit (403 Forbidden)
                     └─────────────┘
 ```
 
-## How the System Works
 
-1. Client connects to Nginx over HTTPS  
-2. Nginx checks for a valid mTLS client certificate  
-3. Nginx sends metadata to the Trust Service via `auth_request`  
-4. Trust Service returns:  
-   - `X-Trust-Lane` (trusted | public | blocked)  
-   - `X-Trust-Risk`  
-   - `X-Trust-Identity`  
-5. Nginx routes the request  
-6. Backend services receive basic trust metadata for demonstration 
-
-Traffic that fails verification never reaches backend.
-
-
-
-## Project Structure
-
+## Summary
 ```
-docker/
-├── docker-compose.yml      # Orchestration
-├── nginx/                  # Reverse proxy with mTLS + trust routing
-├── trust-service/          # Node.js classification service
-├── frontend/               # React documentation interface
-├── certs/                  # Root CA + server + client certs
-└── apps/                   # Public + Trusted lane HTML pages
+Verified automation is separated immediately.
+Unknown traffic is isolated by default.
+Detection operates only where uncertainty exists.
+
+Identity is the first filter, not the final answer.
 ```
 
-## Quick Start (Full setup in /docker)
-```bash
-cd docker
-#Make it executabele
-chmod +x generate-certs.sh
-# Generate certs
-./certs/generate-certs.sh
+## Limitations
+- PKI is simplified and not production-hardened
 
-# Build and start containers
-docker compose up --build
-```
-## Running the System
+- No certificate rotation or revocation
 
-Runtime and testing instructions are located in: **[/docker/README.md](./docker/README.md)**
+- Verification logic is intentionally minimal
+
+- Public Lane enforcement is conceptual
+
+- Googlebot verification (if present) is demonstrative only
 
 
 
-## Technologies
-
-* Nginx (mTLS termination + routing)
-
-* PKI (custom CA, client/server certificates)
-
-* Node.js + Express Trust Service
-
-* React, Vite, TypeScript, Tailwind
-
-* Docker & Docker Compose
-
-* Googlebot verification (IP + reverse DNS)
-
-## Original Concept
-
-The architecture originates from the idea and reasoning summarized in: **[The starting idea](./idea-startpoint.pdf)**
-
-It explains my original thinking:
-
-* why identity > behavior
-
-* why mTLS is the baseline
-
-* why Public must be strict
-
-* how ML fits in as a secondary layer
-
-* how the three-lane idea conceptually relates to patterns used in some bot-mitigation systems
-
-
-# Summary
-This prototype demonstrates a modern approach to controlling automation:
-
-```
-In this prototype:
-Unknown traffic belongs in Public Lane.
-Verified automation belongs in Trusted Lane.
-Suspicious automation is blocked early.
-```
-
-By pushing trust decisions to the edge, before backend services, this prototype is inspired by patterns used in modern bot-mitigation and Zero Trust systems, but it is intentionally simplified for experimentation and learning.
 
 
 
-# Limitations
 
-* ML classification is not implemented (concept only).
-
-* PKI is simplified and not production-hardened.
-
-* No certificate rotation, revocation, or lifecycle management.
-
-* Verification logic is intentionally minimal.
-
-* Public lane “human vs automation” distinctions are conceptual only.
-
-* Googlebot verification is a simplified demonstration, not production-grade.
-
-* Routing rules are illustrative, not comprehensive.
 
 
 

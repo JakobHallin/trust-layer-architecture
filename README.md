@@ -38,9 +38,7 @@ This prototype explores a different question:
 The system applies identity-first separation for automation:
 
 - Verified automation authenticates using strong machine identity (mTLS) and is routed into a Trusted Lane
-
 - All other traffic defaults to a Public Lane
-
 - Failed or suspicious verification results in early rejection
 
 Behavioral or ML-based bot detection is assumed to operate only on Public Lane traffic, with reduced noise and fewer false positives.
@@ -52,11 +50,8 @@ Identity is the first filter, not the final decision.
 ## What “Verified Automation” Means
 
 In this prototype, verified automation refers to automation that is:
-
 - intentionally operated
-
 - explicitly enrolled
-
 - cryptographically identifiable by the service owner
 
 Verified automation may be operated by:
@@ -71,11 +66,8 @@ Automation operated by trusted third parties with an explicit enrollment relatio
 Automation operated by external vendors providing integrated services.
 
 All verified automation:
-
 - authenticates via mTLS
-
 - is routed into the Trusted Lane
-
 - may carry policy metadata, but does not require separate trust lanes
 
 This system does not attempt to authenticate arbitrary third-party bots on the open internet.
@@ -87,7 +79,6 @@ This system does not attempt to authenticate arbitrary third-party bots on the o
 A client routed here must present a **valid mTLS client certificate** issued by the trusted CA.
 
 Used for:
-
 - internal services  
 - AI agents  
 - backend automation  
@@ -125,11 +116,8 @@ This is a decision, not a separate backend destination.
 By removing verified automation before behavioral analysis:
 
 - detection systems receive cleaner signals
-
 - false positives decrease
-
 - enforcement decisions become safer
-
 - trusted automation never competes with unknown traffic
 
 If automation in the Public Lane exhibits bot-like behavior, it can be treated with significantly higher confidence as potentially harmful because verified automation is expected to authenticate.
@@ -138,12 +126,9 @@ If automation in the Public Lane exhibits bot-like behavior, it can be treated w
 ## What This Prototype Does Not Do
 
 
-- t does not identify humans
-
+- It does not identify humans
 - It does not detect malicious bots
-
 - It does not implement ML or swarm detection
-
 - It does not provide production-grade PKI
 
 These concerns are intentionally out of scope. (might me looked at later)
@@ -154,9 +139,7 @@ These concerns are intentionally out of scope. (might me looked at later)
 This approach is most effective in environments where:
 
 - some automation can be explicitly enrolled
-
 - machine identity is feasible
-
 - downstream detection systems already exist
 
 It is designed as a foundational trust layer, not a complete bot-mitigation solution.
